@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from jose import jwt, JWTError
-from passlib.context import CryptContext
+from jose import jwt, JWTError  # type: ignore[import-not-found]
+from passlib.context import CryptContext  # type: ignore[import-not-found]
 
-# TODO: 나중에 .env / settings로 분리
 from app.core.config import settings
 
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Use a backend-stable default hash for local/dev tests and CI.
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 class TokenError(Exception):
@@ -30,7 +30,7 @@ def _build_token_payload(
     email: str,
     token_type: str,
     expires_delta: timedelta | None,
-) -> tuple[dict[str, Any], int]:
+) -> tuple[dict[str, Any], datetime, int]:
     """토큰 payload 생성과 만료 초 계산을 공통 처리한다."""
     now = datetime.now(timezone.utc)
     expire = now + (
@@ -51,7 +51,7 @@ def _build_token_payload(
         "exp": int(expire.timestamp()),
     }
     expire_in = int((expire - now).total_seconds())
-    return payload, expire_in
+    return payload, expire, expire_in
 
 
 def _create_jwt_token(payload: dict[str, Any]) -> str:
@@ -63,28 +63,30 @@ def create_access_token(
     subject: str | int,
     email: str,
     expires_delta: timedelta | None = None,
-) -> tuple[str, int]:
+) -> tuple[str, datetime, int]:
     """
     JWT 엑세스 토큰 생성
     반환값: (token, expiration_in_seconds)
     """
-    payload, expire_in = _build_token_payload(subject, email, "access", expires_delta)
+    payload, expires_at, expire_in = _build_token_payload(
+        subject, email, "access", expires_delta
+    )
     token = _create_jwt_token(payload)
-    return token, expire_in
+    return token, expires_at, expire_in
 
 
 def create_refresh_token(
     subject: str | int,
     email: str,
     expires_delta: timedelta | None = None,
-) -> tuple[str, int]:
+) -> tuple[str, datetime, int]:
     """
     JWT 리프레시 토큰 생성
     반환값: (token, expiration_in_seconds)
     """
-    payload, expire_in = _build_token_payload(subject, email, "refresh", expires_delta)
+    payload, expires_at, expire_in = _build_token_payload(subject, email, "refresh", expires_delta)
     token = _create_jwt_token(payload)
-    return token, expire_in
+    return token, expires_at, expire_in
 
 
 def decode_token(token: str, expected_type: str | None = None) -> dict[str, Any]:
@@ -101,6 +103,8 @@ def decode_token(token: str, expected_type: str | None = None) -> dict[str, Any]
 
     if not payload.get("sub"):
         raise TokenError("토큰에 사용자 정보가 없습니다.")
+    if payload.get("exp") is None:
+        raise TokenError("토큰 만료시각이 없습니다.")
 
     return payload
 

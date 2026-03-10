@@ -2,7 +2,7 @@ from typing import Optional
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError
+from jose import JWTError  # type: ignore[import-not-found]
 from app.core.config import settings
 from app.core.security import decode_access_token, TokenError
 from app.repositories.user_repository import user_repository

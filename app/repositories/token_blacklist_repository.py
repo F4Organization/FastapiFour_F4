@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.models.token_blacklist import TokenBlacklist
 from app.models.user import User
@@ -22,4 +22,17 @@ class TokenBlacklistRepository:
 
     async def exists(self, token: str) -> bool:
         """토큰이 블랙리스트에 존재하는지 확인한다."""
-        return await TokenBlacklist.filter(token=token).exists()
+        now = datetime.now(timezone.utc)
+        await self.purge_expired()
+        return await TokenBlacklist.filter(
+            token=token,
+            expires_at__gt=now,
+        ).exists()
+
+    async def purge_expired(self) -> int:
+        """만료된 블랙리스트 토큰을 정리한다."""
+        now = datetime.now(timezone.utc)
+        return await TokenBlacklist.filter(expires_at__lte=now).delete()
+
+
+token_blacklist_repository = TokenBlacklistRepository()

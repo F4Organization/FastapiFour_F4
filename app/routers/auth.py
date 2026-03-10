@@ -39,16 +39,20 @@ async def login(payload: UserLoginRequest):
     """이메일/비밀번호로 로그인하고 JWT를 발급한다."""
     (
         access_token,
-        expire_in,
+        expires_in,
+        access_expires_at,
         refresh_token,
-        refresh_expire_in,
+        refresh_expires_in,
+        refresh_expires_at,
         _,
     ) = await auth_service.login(payload)
     return TokenResponse(
         access_token=access_token,
-        expire_in=expire_in,
+        access_expires_at=access_expires_at,
         refresh_token=refresh_token,
-        refresh_expire_in=refresh_expire_in,
+        refresh_expires_at=refresh_expires_at,
+        expires_in=expires_in,
+        refresh_expires_in=refresh_expires_in,
     )
 
 
@@ -57,16 +61,20 @@ async def refresh(payload: TokenRefreshRequest):
     """리프레시 토큰으로 새 JWT 쌍을 발급한다."""
     (
         access_token,
-        expire_in,
+        expires_in,
+        access_expires_at,
         refresh_token,
-        refresh_expire_in,
+        refresh_expires_in,
+        refresh_expires_at,
         _,
     ) = await auth_service.refresh(payload.refresh_token)
     return TokenResponse(
         access_token=access_token,
-        expire_in=expire_in,
+        access_expires_at=access_expires_at,
         refresh_token=refresh_token,
-        refresh_expire_in=refresh_expire_in,
+        refresh_expires_at=refresh_expires_at,
+        expires_in=expires_in,
+        refresh_expires_in=refresh_expires_in,
     )
 
 
