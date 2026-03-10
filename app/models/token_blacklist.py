@@ -8,7 +8,7 @@ class TokenBlacklist(Model):
     """로그아웃된 토큰을 저장해 재사용을 차단하는 모델."""
 
     id = fields.IntField(pk=True)
-    token = fields.TextField(unique=True, index=True)
+    token = fields.CharField(max_length=2048, unique=True, db_index=True)
     user = fields.ForeignKeyField(
         "models.User", related_name="token_blacklists", on_delete=fields.CASCADE
     )

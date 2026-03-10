@@ -23,6 +23,7 @@ python-jose = {extras = ["cryptography"], version = "^3.4.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 dotenv = "^0.9.9"
 pydantic-settings = "^2.13.1"
+email-validator = "^2.3.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -31,6 +32,7 @@ ruff = "0.8.2"
 mypy = "1.13.0"
 pytest = "8.3.4"
 coverage = "7.6.9"
+httpx = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core"]
