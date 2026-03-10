@@ -33,7 +33,7 @@ TORTOISE_ORM = {
 
 # DB 테이블 생성
 def init_tortoise(app: FastAPI) -> None:
-    Tortoise.init_models(config=TORTOISE_MODELS, app_label="models")
+    Tortoise.init_models(TORTOISE_MODELS, "models")
     register_tortoise(
         app,
         config=TORTOISE_ORM,

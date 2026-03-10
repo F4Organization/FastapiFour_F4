@@ -18,5 +18,5 @@ class Config(BaseSettings):
     CONNECTION_POOL_MAXSIZE: int = 10
 
     class Config:
-        env_path = Path(__file__).resolve().parent.parent.parent / ".env"  # .env 파일 지정
+        env_file = Path(__file__).resolve().parent.parent.parent / ".env"  # .env 파일 지정
         env_file_encoding = "utf-8"
