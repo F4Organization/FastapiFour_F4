@@ -31,3 +31,9 @@ coverage = "7.6.9"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.aerich]
+tortoise_orm = "app.core.database.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./."
