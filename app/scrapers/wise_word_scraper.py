@@ -1,9 +1,11 @@
+import asyncio
+
 import requests
 from bs4 import BeautifulSoup as bs
-import asyncio
-from app.models.wise_word_model import WiseWord
-from app.core.database import TORTOISE_ORM
 from tortoise import Tortoise
+
+from app.core.database import TORTOISE_ORM
+from app.models.wise_word_model import WiseWord
 
 
 async def scraping_wise_word(start_page: int, final_page: int) -> None:
@@ -20,9 +22,9 @@ async def scraping_wise_word(start_page: int, final_page: int) -> None:
 
                 # 첫번째 table 태그의 tr 태그 내용을 전부 가져옴(table2, 리스트 상태)
                 # 필요한 부분만 슬라이싱(table3)
-                html = bs(res.content, 'lxml')
-                table1 = html.find('table')
-                table2 = table1.find_all('tr')
+                html = bs(res.content, "lxml")
+                table1 = html.find("table")
+                table2 = table1.find_all("tr")
                 table3 = table2[2::2]
 
                 # 명언과 저자를 분리. 만일 저자가 없을 시 무시하도록 처리
