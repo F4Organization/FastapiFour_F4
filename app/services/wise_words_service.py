@@ -11,11 +11,10 @@ async def get_random_wise_word() -> WiseWord:
     return wise_word
 
 
-async def add_bookmark(user_id: int, wise_word_id: int) -> dict:
+async def add_bookmark(user_id: int, wise_word_id: int) -> None:
     wise_word = await BookmarkedWiseWord.filter(user_id=user_id, wise_word_id=wise_word_id).first()
     if wise_word:
         raise HTTPException(status_code=400, detail="Wise word already bookmarked")
     else:
         await BookmarkedWiseWord.create(user_id=user_id, wise_word_id=wise_word_id)
-        return {"message": "Bookmarked successfully"}
 
