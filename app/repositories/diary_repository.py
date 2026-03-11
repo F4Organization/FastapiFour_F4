@@ -1,9 +1,12 @@
 from app.models.diary import Diary
 
 
-async def create_diary(title: str, content: str):
-    return await Diary.create(title=title, content=content)
-
+async def create_diary(user_id: int, title: str, content: str):
+    return await Diary.create(
+        user_id=user_id,
+        title=title,
+        content=content
+    )
 
 async def get_diaries(user_id: int):
     return await Diary.filter(user_id=user_id)
@@ -14,5 +17,6 @@ async def get_diary(diary_id: int):
 
 
 async def delete_diary(diary_id: int):
-    diary = await Diary.get(id=diary_id)
-    await diary.delete()
+    diary = await Diary.get_or_none(id=diary_id)
+    if diary:
+        await diary.delete()
