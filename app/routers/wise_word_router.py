@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.models.user import User
-from app.models.wise_word_model import WiseWord
 from app.schemas.wise_word_schema import WiseWordResponse, BookMarkWiseWordRequest
 from app.services.wise_words_service import get_random_wise_word, add_bookmark
 from app.dependencies.auth import get_current_user
