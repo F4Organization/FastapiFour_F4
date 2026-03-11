@@ -12,10 +12,10 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.models.user import User
+from app.models.user_model import User
 from app.repositories.token_blacklist_repository import token_blacklist_repository
 from app.repositories.user_repository import user_repository
-from app.schemas.auth import UserLoginRequest, UserSignUpRequest
+from app.schemas.auth_schema import UserLoginRequest, UserSignUpRequest
 
 
 def _to_datetime_if_present(timestamp: int | float | None) -> datetime | None:

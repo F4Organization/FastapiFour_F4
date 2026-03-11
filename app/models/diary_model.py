@@ -4,7 +4,7 @@ from tortoise.models import Model
 
 class Diary(Model):
     id = fields.IntField(pk=True)
-    user = fields.ForeignKeyField(
+    user_id = fields.ForeignKeyField(
         "models.User",
         related_name="diaries"
     )
