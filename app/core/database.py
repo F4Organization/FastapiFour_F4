@@ -1,11 +1,8 @@
 from fastapi import FastAPI
 from tortoise import Tortoise
 from tortoise.contrib.fastapi import register_tortoise
-<<<<<<< HEAD
 
 from app.core.config import Config
-=======
->>>>>>> 6047c55 ( ✨ feat(auth): implement refresh/logout/blacklist flow)
 
 from app.core.config import settings
 
