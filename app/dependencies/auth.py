@@ -82,22 +82,6 @@ async def get_current_active_user(
     return current_user
 
 
-async def get_current_superuser(
-    current_user: User = Depends(get_current_active_user),
-) -> User:
-    """관리자 권한이 있는 사용자만 통과시키는 인증 의존성."""
-    if not current_user.is_superuser:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail={
-                "code": "AUTH_FORBIDDEN",
-                "message": "관리자 권한이 필요합니다.",
-                "detail": None,
-            },
-        )
-    return current_user
-
-
 async def get_optional_current_user(
     token: Optional[str] = Depends(oauth2_scheme_optional),
 ) -> Optional[User]:
@@ -119,17 +103,13 @@ async def get_optional_current_user(
 
     except (JWTError, TokenError, ValueError):
         return None
-
-
-def verify_self_or_superuser(target_user_id: int, current_user: User) -> None:
-    """
-    본인 요청이거나 관리자이면 통과한다.
-    """
-    if current_user.id != target_user_id and not current_user.is_superuser:
+def verify_self(target_user_id: int, current_user: User) -> None:
+    """본인 요청인 경우에만 통과한다."""
+    if current_user.id != target_user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail={
-                "code": "AUTH_SELF_OR_ADMIN_REQUIRED",
+                "code": "AUTH_SELF_REQUIRED",
                 "message": "본인의 정보만 수정할 수 있습니다.",
                 "detail": None,
             },

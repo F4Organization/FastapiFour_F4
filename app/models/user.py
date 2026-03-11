@@ -10,7 +10,6 @@ class User(Model):
     hashed_password = fields.CharField(max_length=255)
     nickname = fields.CharField(max_length=20, null=True)
     is_active = fields.BooleanField(default=True)
-    is_superuser = fields.BooleanField(default=False)
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
 
@@ -18,4 +17,3 @@ class User(Model):
         """users 테이블 이름을 지정한다."""
 
         table = "users"
-
