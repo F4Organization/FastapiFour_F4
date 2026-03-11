@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from app.core.config import Env, settings
 from app.core.database import init_tortoise
 from app.routers import auth_router
+from app.routers import diary_router
 from app.schemas.auth import APIErrorResponse
 
 
@@ -27,6 +28,7 @@ def _build_error_payload(detail: object) -> APIErrorResponse:
 
 app = FastAPI(title=settings.PROJECT_NAME, debug=settings.ENV == Env.LOCAL)
 app.include_router(auth_router, prefix=settings.API_V1_STR)
+app.include_router(diary_router, prefix=settings.API_V1_STR)
 init_tortoise(app)
 
 
