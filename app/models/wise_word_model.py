@@ -10,6 +10,9 @@ class WiseWord(Model):
     created_at = fields.DatetimeField(auto_now_add=True)  # UTC로 저장
     bookmarked_wise_words = fields.ReverseRelation["BookmarkedWiseWord"]
 
+    class Meta:
+        table = "wise_words"
+
 # 유저의 북마크 저장용 테이블
 class BookmarkedWiseWord(Model):
     id = fields.IntField(pk=True)
@@ -26,3 +29,6 @@ class BookmarkedWiseWord(Model):
         null=False,
     )
     created_at = fields.DatetimeField(auto_now_add=True)
+
+    class Meta:
+        table = "bookmarked_wise_words"
