@@ -22,7 +22,7 @@ async def add_bookmark(user_id: int, wise_word_id: int) -> None:
 
 
 async def delete_bookmark(user_id: int, wise_word_id: int) -> None:
-    bookmark = await BookmarkedWiseWord.filter(user_id=user_id, id=wise_word_id).first()
+    bookmark = await BookmarkedWiseWord.filter(user_id=user_id, wise_word_id=wise_word_id).first()
     if not bookmark:
         raise HTTPException(status_code=400, detail="Wise word not bookmarked")
     await bookmark.delete()
