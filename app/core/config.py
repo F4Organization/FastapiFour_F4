@@ -1,8 +1,5 @@
-from enum import StrEnum
 from pathlib import Path
 from enum import StrEnum
-
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from pydantic_settings import BaseSettings
 
@@ -23,13 +20,14 @@ class Config(BaseSettings):
     ALGORITHM: str 
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 10080
-    DATABASE_URL: str | None = None
+
 
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_USER: str
-    POSTGRES_PASSWORD: str 
-    POSTGRES_DB: str 
+    POSTGRES_PASSWORD: str | int
+    POSTGRES_DB: str
+    CONNECTION_POOL_MAXSIZE: int = 10
     
     class Config:
         env_file = (
