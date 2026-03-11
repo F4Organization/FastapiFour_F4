@@ -1,5 +1,6 @@
-from tortoise.models import Model
 from tortoise import fields
+from tortoise.models import Model
+
 
 # 명언 수집 데이터베이스
 class WiseWord(Model):
