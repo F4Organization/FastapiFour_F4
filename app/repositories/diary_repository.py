@@ -6,7 +6,7 @@ async def create_diary(title: str, content: str):
 
 
 async def get_diaries(user_id: int):
-    return await diary_repository.get_diaries(user_id)
+    return await Diary.filter(user_id=user_id)
 
 
 async def get_diary(diary_id: int):
