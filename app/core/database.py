@@ -4,17 +4,23 @@ from tortoise.contrib.fastapi import register_tortoise
 
 from app.core.config import Config
 
-from app.core.config import settings
+config = Config()
 
 TORTOISE_MODELS = [
+    "app.models.wise_word_model",
     "app.models.user",
     "app.models.token_blacklist",
-    "app.models.wise_word_model",
-    "app.models.diary",
+    "app.models.diary"
     "aerich.models",
 ]
 
-DATABASE_URL = settings.database_url
+DATABASE_URL = (
+    f"postgres://{config.POSTGRES_USER}:"
+    f"{config.POSTGRES_PASSWORD}@"
+    f"{config.POSTGRES_HOST}:"
+    f"{config.POSTGRES_PORT}/"
+    f"{config.POSTGRES_DB}"
+)
 
 
 TORTOISE_ORM = {
@@ -27,11 +33,12 @@ TORTOISE_ORM = {
     },
 }
 
+
+# DB 테이블 생성
 def init_tortoise(app: FastAPI) -> None:
-    """Tortoise ORM을 앱 라이프사이클에 바인딩한다."""
     Tortoise.init_models(TORTOISE_MODELS, "models")
     register_tortoise(
         app,
         config=TORTOISE_ORM,
-        generate_schemas=settings.GENERATE_SCHEMAS,
+        generate_schemas=False,
     )

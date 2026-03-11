@@ -43,6 +43,7 @@ build-backend = "poetry.core.masonry.api"
 tortoise_orm = "app.core.database.TORTOISE_ORM"
 location = "./migrations"
 src_folder = "./."
+
 [tool.mypy]
 python_version = "3.14"
 strict = true
