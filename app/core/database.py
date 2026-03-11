@@ -10,6 +10,7 @@ TORTOISE_MODELS = [
     "app.models.user",
     "app.models.token_blacklist",
     "app.models.wise_word_model",
+    "app.models.diary",
     "aerich.models",
 ]
 
