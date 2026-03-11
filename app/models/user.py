@@ -12,7 +12,7 @@ class User(Model):
     is_active = fields.BooleanField(default=True)
     created_at = fields.DatetimeField(auto_now_add=True)
     updated_at = fields.DatetimeField(auto_now=True)
-    bookmark_wise_words = fields.ReverseRelation["BookmarkedWiseWord"]
+    user_bookmark = fields.ReverseRelation["BookmarkedWiseWord"]
 
     class Meta:
         """users 테이블 이름을 지정한다."""

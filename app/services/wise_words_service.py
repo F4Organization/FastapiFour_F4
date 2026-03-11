@@ -26,3 +26,8 @@ async def delete_bookmark(user_id: int, wise_word_id: int) -> None:
     if not bookmark:
         raise HTTPException(status_code=400, detail="Wise word not bookmarked")
     await bookmark.delete()
+
+
+async def get_all_bookmarks(user_id: int) -> list[WiseWord]:
+    wise_words = await WiseWord.filter(wise_word_bookmark__user_id=user_id).all()
+    return wise_words

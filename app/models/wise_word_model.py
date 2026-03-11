@@ -8,7 +8,7 @@ class WiseWord(Model):
     author = fields.CharField(max_length=255, null=False)
     content = fields.TextField(null=False)
     created_at = fields.DatetimeField(auto_now_add=True)  # UTC로 저장
-    bookmarked_wise_words = fields.ReverseRelation["BookmarkedWiseWord"]
+    wise_word_bookmark = fields.ReverseRelation["BookmarkedWiseWord"]
 
     class Meta:
         table = "wise_words"
@@ -18,13 +18,13 @@ class BookmarkedWiseWord(Model):
     id = fields.IntField(pk=True)
     user_id = fields.ForeignKeyField(
         model_name="models.User",
-        related_name="bookmark_wise_words",
+        related_name="user_bookmark",
         on_delete=fields.CASCADE,
         null=False,
     )
     wise_word_id = fields.ForeignKeyField(
         model_name="models.WiseWord",
-        related_name="bookmarked_wise_words",
+        related_name="wise_word_bookmark",
         on_delete=fields.CASCADE,
         null=False,
     )
