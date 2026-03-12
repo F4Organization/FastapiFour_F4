@@ -7,8 +7,13 @@ class DiaryCreate(BaseModel):
 
 
 class DiaryResponse(BaseModel):
-    id: int
-    title: str
-    content: str
+    diary_id: int
+    title: str | None
+    content: str | None
+
     class Config:
         from_attributes = True
+
+class DiaryUpdateRequest(BaseModel):
+    title: str | None
+    content: str | None
