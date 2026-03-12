@@ -125,7 +125,7 @@ class AuthService:
             _auth_error(
                 status.HTTP_401_UNAUTHORIZED,
                 "AUTH_REFRESH_REUSED",
-                "이미 재발급된 refresh token입니다.",
+                "폐기된 refresh token입니다.",
             )
 
         return self._issue_token_pair(user)

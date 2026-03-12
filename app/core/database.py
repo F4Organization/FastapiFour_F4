@@ -8,9 +8,9 @@ config = Config()
 
 TORTOISE_MODELS = [
     "app.models.wise_word_model",
-    "app.models.user",
-    "app.models.token_blacklist",
-    "app.models.diary",
+    "app.models.user_model",
+    "app.models.token_blacklist_model",
+    "app.models.diary_model",
     "aerich.models",
 ]
 

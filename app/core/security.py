@@ -4,8 +4,10 @@ from typing import Any
 from jose import jwt, JWTError  # type: ignore[import-not-found]
 from passlib.context import CryptContext  # type: ignore[import-not-found]
 
-from app.core.config import settings
+from app.core.config import Config
 
+
+config = Config()
 
 # Use a backend-stable default hash for local/dev tests and CI.
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
@@ -37,9 +39,9 @@ def _build_token_payload(
         expires_delta
         or timedelta(
             minutes=(
-                settings.ACCESS_TOKEN_EXPIRE_MINUTES
+                config.ACCESS_TOKEN_EXPIRE_MINUTES
                 if token_type == "access"
-                else settings.REFRESH_TOKEN_EXPIRE_MINUTES
+                else config.REFRESH_TOKEN_EXPIRE_MINUTES
             )
         )
     )
@@ -56,7 +58,7 @@ def _build_token_payload(
 
 def _create_jwt_token(payload: dict[str, Any]) -> str:
     """JWT 문자열을 생성해 반환한다."""
-    return jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+    return jwt.encode(payload, config.SECRET_KEY, algorithm=config.ALGORITHM)
 
 
 def create_access_token(
@@ -93,7 +95,7 @@ def decode_token(token: str, expected_type: str | None = None) -> dict[str, Any]
     """JWT 토큰 검증 및 payload 반환"""
     try:
         payload = jwt.decode(
-            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+            token, config.SECRET_KEY, algorithms=[config.ALGORITHM]
         )
     except JWTError as e:
         raise TokenError("유효하지 않거나 만료된 토큰입니다.") from e
