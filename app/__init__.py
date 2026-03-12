@@ -4,12 +4,14 @@ from app.core.database import init_tortoise
 from app.routers.auth_router import router as auth_router
 from app.routers.wise_word_router import router as wise_word_router
 from app.routers.diary_router import router as diary_router
+from app.routers.random_question_router import router as random_question_router
 
 app = FastAPI()
 
 app.include_router(auth_router)
 app.include_router(wise_word_router)
 app.include_router(diary_router)
+app.include_router(random_question_router)
 
 # 데이터베이스 연결 초기화
 init_tortoise(app)
