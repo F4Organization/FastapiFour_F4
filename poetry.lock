@@ -22,7 +22,7 @@ asyncmy = ["asyncmy (>=0.2.9)"]
 asyncpg = ["asyncpg"]
 mysql = ["aiomysql (>=0.2.0)"]
 psycopg = ["psycopg[binary,pool] (>=3.0.12,<4.0.0)"]
-toml = ["tomli-w (>=1.1.0,<2.0.0)", "tomlkit (>=0.11.4,<1.0.0)"]
+toml = ["tomli-w (>=1.1.0,<2.0.0)", "tomlkit (>=0.11.4d,<1.0.0)"]
 
 [[package]]
 name = "aiosqlite"
