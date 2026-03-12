@@ -42,7 +42,7 @@ async def api_delete_bookmark(
     return {"message": "Bookmark deleted"}
 
 
-@router.get("/bookmark")
+@router.get("/bookmark", response_model=list[WiseWordResponse])
 async def api_get_all_bookmarks(
         current_user: User = Depends(get_current_user),
 ) -> list[WiseWordResponse]:
