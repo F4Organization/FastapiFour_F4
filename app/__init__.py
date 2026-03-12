@@ -1,3 +1,21 @@
+from fastapi import FastAPI
+
+from app.core.database import init_tortoise
+from app.routers.auth_router import router as auth_router
+from app.routers.wise_word_router import router as wise_word_router
+
+app = FastAPI()
+
+app.include_router(auth_router)
+app.include_router(wise_word_router)
+
+# 데이터베이스 연결 초기화
+init_tortoise(app)
+
+
+
+
+
 # from fastapi import FastAPI, HTTPException, Request
 # from fastapi.exceptions import RequestValidationError
 # from fastapi.encoders import jsonable_encoder
@@ -60,12 +78,3 @@
 #         detail=str(exc),
 #     )
 #     return JSONResponse(status_code=500, content=payload.model_dump())
-
-from fastapi import FastAPI
-
-from app.core.database import init_tortoise
-
-app = FastAPI()
-
-# 데이터베이스 연결 초기화
-init_tortoise(app)

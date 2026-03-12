@@ -1,4 +1,4 @@
-from app.models.diary import Diary
+from app.models.diary_model import Diary
 
 
 async def create_diary(user_id: int, title: str, content: str):

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
 from typing import List
 
-from app.schemas.diary import DiaryCreate, DiaryResponse
+from app.schemas.diary_schema import DiaryCreate, DiaryResponse
 from app.services import diary_service
 
 router = APIRouter(prefix="/diaries", tags=["Diary"])

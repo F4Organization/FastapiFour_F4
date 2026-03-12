@@ -12,10 +12,10 @@ from app.core.security import (
     hash_password,
     verify_password,
 )
-from app.models.user import User
+from app.models.user_model import User
 from app.repositories.token_blacklist_repository import token_blacklist_repository
 from app.repositories.user_repository import user_repository
-from app.schemas.auth import UserLoginRequest, UserSignUpRequest
+from app.schemas.auth_schema import UserLoginRequest, UserSignUpRequest
 
 
 def _to_datetime_if_present(timestamp: int | float | None) -> datetime | None:
@@ -125,7 +125,7 @@ class AuthService:
             _auth_error(
                 status.HTTP_401_UNAUTHORIZED,
                 "AUTH_REFRESH_REUSED",
-                "이미 재발급된 refresh token입니다.",
+                "폐기된 refresh token입니다.",
             )
 
         return self._issue_token_pair(user)

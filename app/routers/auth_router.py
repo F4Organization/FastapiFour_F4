@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Body, Depends
-from fastapi.security import OAuth2PasswordBearer
 
-from app.dependencies.auth import get_current_active_user, get_current_user
-from app.models.user import User
-from app.schemas.auth import (
+from app.dependencies.auth import get_current_active_user, get_current_user, oauth2_scheme_required
+from app.models.user_model import User
+from app.schemas.auth_schema import (
     MessageResponse,
     LogoutRequest,
     TokenResponse,
@@ -13,13 +12,9 @@ from app.schemas.auth import (
     UserSignUpRequest,
 )
 from app.services.auth_service import auth_service
-from app.core.config import settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-_oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.API_V1_STR}/auth/login",
-    auto_error=True,
-)
+
 
 
 @router.post("/signup", status_code=201, response_model=UserResponse)
@@ -92,7 +87,7 @@ async def me(current_user: User = Depends(get_current_active_user)):
 @router.post("/logout", response_model=MessageResponse)
 async def logout(
     current_user: User = Depends(get_current_user),
-    token: str = Depends(_oauth2_scheme),
+    token: str = Depends(oauth2_scheme_required),
     payload: LogoutRequest | None = Body(default=None),
 ):
     """현재 토큰을 블랙리스트에 등록해 로그아웃 처리한다."""

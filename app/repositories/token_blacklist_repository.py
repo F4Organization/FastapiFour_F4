@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
-from app.models.token_blacklist import TokenBlacklist
-from app.models.user import User
+from app.models.token_blacklist_model import TokenBlacklist
+from app.models.user_model import User
 
 
 class TokenBlacklistRepository:
