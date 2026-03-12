@@ -15,9 +15,5 @@ class DiaryResponse(BaseModel):
         from_attributes = True
 
 class DiaryUpdateRequest(BaseModel):
-    diary_id: int
     title: str | None
     content: str | None
-
-class GetDiaryRequest(BaseModel):
-    diary_id: int

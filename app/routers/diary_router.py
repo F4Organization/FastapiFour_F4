@@ -1,7 +1,7 @@
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends
 from typing import List
 
-from app.schemas.diary_schema import DiaryCreate, DiaryResponse, DiaryUpdateRequest, GetDiaryRequest
+from app.schemas.diary_schema import DiaryCreate, DiaryResponse, DiaryUpdateRequest
 from app.services import diary_service
 from app.dependencies.auth import get_current_user
 from app.models.user_model import User
@@ -12,7 +12,7 @@ router = APIRouter(prefix="/diaries", tags=["Diary"])
 @router.post("/", response_model=DiaryResponse, status_code=status.HTTP_201_CREATED)
 async def create_diary(
     data: DiaryCreate,
-    current_user: User = Depends(get_current_user()),
+    current_user: User = Depends(get_current_user),
 ) -> DiaryResponse:
     """
     새로운 일기를 생성합니다.
@@ -42,7 +42,7 @@ async def read_diaries(current_user: User = Depends(get_current_user)) -> List[D
 
 @router.get("/{diary_id}", response_model=DiaryResponse)
 async def read_diary(
-        diary_id: GetDiaryRequest,
+        diary_id: int,
         current_user: User = Depends(get_current_user),
 ) -> DiaryResponse | None:
     """
@@ -54,26 +54,26 @@ async def read_diary(
 
 @router.delete("/{diary_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_diary(
-        diary_id: GetDiaryRequest,
+        diary_id: int,
         current_user: User = Depends(get_current_user),
-) -> dict:
+) -> None:
     """
     특정 일기를 삭제합니다.
     """
 
     await diary_service.delete_diary(diary_id=diary_id.diary_id, user_id=current_user.id)
-    return {"message": "Diary deleted successfully"}
 
 
 @router.put("/{diary_id}", response_model=DiaryResponse)
 async def api_update_diary(
+        diary_id: int,
         data: DiaryUpdateRequest,
         current_user: User = Depends(get_current_user),
 ) -> DiaryResponse:
 
     updated_diary = await diary_service.update_diary(
         user_id=current_user.id,
-        diary_id=data.diary_id,
+        diary_id=diary_id,
         title=data.title,
         content=data.content
     )
